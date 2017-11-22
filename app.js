@@ -3,13 +3,15 @@ const fs = require("fs");
 const express = require("express");
 const app = express();
 
-app.get('/', (req, res) =>{ res.send("OK")});
+app.get("/", (req, res) => {
+  res.send("OK");
+});
 app.get("/:ano/:numeroCarteiraDeputado/:despesa", (req, res) => {
   const results = [];
   const ano = req.params.ano;
   const numeroCarteiraDeputado = req.params.numeroCarteiraDeputado;
   const despesa = req.params.despesa;
-  const stream = fs.createReadStream(`Ano-${ano}.csv` , {
+  const stream = fs.createReadStream(`Ano-${ano}.csv`, {
     start: 0,
     end: 3000000
   });
