@@ -4,17 +4,14 @@ const express = require("express");
 const app = express();
 
 app.get("/", (req, res) => {
-  res.send("OK");
+  res.send("Obrigado por usar a API Cota Parlamentar");
 });
 app.get("/:ano/:numeroCarteiraDeputado/:despesa", (req, res) => {
   const results = [];
   const ano = req.params.ano;
   const numeroCarteiraDeputado = req.params.numeroCarteiraDeputado;
   const despesa = req.params.despesa;
-  const stream = fs.createReadStream(`Ano-${ano}.csv`, {
-    start: 0,
-    end: 3000000
-  });
+  const stream = fs.createReadStream(`Ano-${ano}.csv`);
 
   csv
     .fromStream(stream, {
