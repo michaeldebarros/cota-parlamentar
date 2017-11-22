@@ -3,7 +3,7 @@ const fs = require("fs");
 const express = require("express");
 const app = express();
 
-
+app.get('/', (req, res) =>{ res.send("OK")});
 app.get("/:ano/:numeroCarteiraDeputado/:despesa", (req, res) => {
   const results = [];
   const ano = req.params.ano;
