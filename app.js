@@ -3,15 +3,13 @@ const fs = require("fs");
 const express = require("express");
 const app = express();
 
-
 app.get("/:ano/:numeroCarteiraDeputado/:despesa", (req, res) => {
   const results = [];
   const ano = req.params.ano;
   const numeroCarteiraDeputado = req.params.numeroCarteiraDeputado;
   const despesa = req.params.despesa;
-  const stream = fs.createReadStream(`Ano-${ano}.csv` , {
+  const stream = fs.createReadStream(`Ano-${ano}.csv`, {
     start: 0,
-    end: 3000000
   });
 
   csv
@@ -50,11 +48,13 @@ app.get("/:ano/:numeroCarteiraDeputado/:despesa", (req, res) => {
       ]
     })
     .on("data", data => {
-      if (data.numeroCarteiraDeputado === numeroCarteiraDeputado) {
+      if (data.numeroCarteiraDeputado === numeroCarteiraDeputado && data.tipoDespesa === despesa) {
         results.push(data);
       }
     })
     .on("end", () => {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       res.json(results);
     });
 });
