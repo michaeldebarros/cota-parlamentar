@@ -11,7 +11,7 @@ app.get("/:ano/:numeroCarteiraDeputado/:despesa", (req, res) => {
   const ano = req.params.ano;
   const numeroCarteiraDeputado = req.params.numeroCarteiraDeputado;
   const despesa = req.params.despesa;
-  const stream = fs.createReadStream(`Ano-${ano}.csv`);
+  const stream = fs.createReadStream(`Ano-${ano}.csv`, { start: 0 });
 
   csv
     .fromStream(stream, {
