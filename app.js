@@ -7,6 +7,7 @@ app.get("/", (req, res) => {
   res.send("Obrigado por usar a API Cota Parlamentar");
 });
 app.get("/:ano/:numeroCarteiraDeputado/:despesa", (req, res) => {
+  let stopSign = null;
   const results = [];
   const ano = req.params.ano;
   const numeroCarteiraDeputado = req.params.numeroCarteiraDeputado;
@@ -49,12 +50,20 @@ app.get("/:ano/:numeroCarteiraDeputado/:despesa", (req, res) => {
       ]
     })
     .on("data", data => {
-      if (data.numeroCarteiraDeputado === numeroCarteiraDeputado) {
+      if (
+        data.numeroCarteiraDeputado === numeroCarteiraDeputado &&
+        data.tipoDespesa === despesa
+      ) {
         results.push(data);
+        stopSign = false;
+      } else if (stopSign === false) {
+        res.json(results);
+        stopSign = true //this is really unnecessary
       }
     })
     .on("end", () => {
-      res.json(results);
+      //res.json(results);
+      console.log("done");
     });
 });
 
