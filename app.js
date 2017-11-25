@@ -3,14 +3,16 @@ const fs = require("fs");
 const express = require("express");
 const app = express();
 
+app.get("/", (req, res) => {
+  res.send("Obrigado por usar a API Cota Parlamentar");
+});
 app.get("/:ano/:numeroCarteiraDeputado/:despesa", (req, res) => {
+  let stopSign = null;
   const results = [];
   const ano = req.params.ano;
   const numeroCarteiraDeputado = req.params.numeroCarteiraDeputado;
   const despesa = req.params.despesa;
-  const stream = fs.createReadStream(`Ano-${ano}.csv`, {
-    start: 0,
-  });
+  const stream = fs.createReadStream(`Ano-${ano}.csv`, { start: 0 });
 
   csv
     .fromStream(stream, {
@@ -48,14 +50,20 @@ app.get("/:ano/:numeroCarteiraDeputado/:despesa", (req, res) => {
       ]
     })
     .on("data", data => {
-      if (data.numeroCarteiraDeputado === numeroCarteiraDeputado && data.tipoDespesa === despesa) {
+      if (
+        data.numeroCarteiraDeputado === numeroCarteiraDeputado &&
+        data.tipoDespesa === despesa
+      ) {
         results.push(data);
+        stopSign = false;
+      } else if (stopSign === false) {
+        res.json(results);
+        stopSign = true //this is really unnecessary
       }
     })
     .on("end", () => {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-      res.json(results);
+      //res.json(results);
+      console.log("done");
     });
 });
 
