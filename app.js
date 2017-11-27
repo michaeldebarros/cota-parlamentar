@@ -3,6 +3,15 @@ const fs = require("fs");
 const express = require("express");
 const app = express();
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 app.get("/", (req, res) => {
   res.send("Obrigado por usar a API Cota Parlamentar");
 });
@@ -58,12 +67,11 @@ app.get("/:ano/:numeroCarteiraDeputado/:despesa", (req, res) => {
         stopSign = false;
       } else if (stopSign === false) {
         res.json(results);
-        stopSign = true //this is really unnecessary
+        stopSign = true;
       }
     })
     .on("end", () => {
-      //res.json(results);
-      console.log("done");
+      if (results.length === 0) res.send("No data found.");
     });
 });
 
