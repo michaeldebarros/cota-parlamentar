@@ -68,7 +68,6 @@ app.get("/:ano/:numeroCarteiraDeputado/:despesa", (req, res) => {
       } else if (stopSign === false) {
         res.json(results);
         stopSign = true;
-        stream.destroy();
       }
     })
     .on("end", () => {
