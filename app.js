@@ -15,11 +15,11 @@ app.use(function(req, res, next) {
 app.get("/", (req, res) => {
   res.send("Obrigado por usar a API Cota Parlamentar");
 });
-app.get("/:ano/:numeroCarteiraDeputado/:despesa", (req, res) => {
+app.get("/:ano/:nome/:despesa", (req, res) => {
   let stopSign = null;
   const results = [];
   const ano = req.params.ano;
-  const numeroCarteiraDeputado = req.params.numeroCarteiraDeputado;
+  const nome = req.params.nome;
   const despesa = req.params.despesa;
   const stream = fs.createReadStream(`Ano-${ano}.csv`, { start: 0 });
 
@@ -60,7 +60,7 @@ app.get("/:ano/:numeroCarteiraDeputado/:despesa", (req, res) => {
     })
     .on("data", data => {
       if (
-        data.numeroCarteiraDeputado === numeroCarteiraDeputado &&
+        data.nome === nome &&
         data.tipoDespesa === despesa
       ) {
         results.push(data);
@@ -68,7 +68,6 @@ app.get("/:ano/:numeroCarteiraDeputado/:despesa", (req, res) => {
       } else if (stopSign === false) {
         res.json(results);
         stopSign = true;
-        stream.destroy();
       }
     })
     .on("end", () => {
@@ -76,6 +75,6 @@ app.get("/:ano/:numeroCarteiraDeputado/:despesa", (req, res) => {
     });
 });
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log(`Express is seving on port ${process.env.PORT || 3000}`);
+app.listen(process.env.PORT || 3001, () => {
+  console.log(`Express is seving on port ${process.env.PORT || 3001}`);
 });
