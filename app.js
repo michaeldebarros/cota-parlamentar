@@ -52,17 +52,14 @@ app.get("/:ano/:nome/:despesa", (req, res) => {
         ,
         ,
         ,
-        ,
+        "numeroRestituicao",
         ,
         ,
         ,
       ]
     })
     .on("data", data => {
-      if (
-        data.nome === nome &&
-        data.tipoDespesa === despesa
-      ) {
+      if (data.nome === nome && data.tipoDespesa === despesa) {
         results.push(data);
         stopSign = false;
       } else if (stopSign === false) {
