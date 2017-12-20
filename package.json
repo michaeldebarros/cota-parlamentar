@@ -4,7 +4,7 @@
   "description": "A simple node app to parse and serve a big JSON  file individually",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,8 @@
   "dependencies": {
     "express": "^4.16.2",
     "fast-csv": "^2.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.13.0"
   }
 }

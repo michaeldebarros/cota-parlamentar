@@ -15,13 +15,20 @@ app.use(function(req, res, next) {
 app.get("/", (req, res) => {
   res.send("Obrigado por usar a API Cota Parlamentar");
 });
-app.get("/:ano/:nome/:despesa", (req, res) => {
+app.get("/:ano/:nome/:despesa", (req, res, next) => {
   let stopSign = null;
   const results = [];
   const ano = req.params.ano;
   const nome = req.params.nome;
   const despesa = req.params.despesa;
   const stream = fs.createReadStream(`Ano-${ano}.csv`, { start: 0 });
+  console.log(ano, nome, despesa);
+
+  stream.on("error", () => {
+    //throw new Error("there was an error");
+    //res.status(500).send("Internal Error")
+    next(new Error("there was an error"));
+  });
 
   csv
     .fromStream(stream, {
@@ -70,6 +77,11 @@ app.get("/:ano/:nome/:despesa", (req, res) => {
     .on("end", () => {
       if (results.length === 0) res.send("No data found.");
     });
+});
+
+//Error handler
+app.use((err, req, res, next) => {
+  if (err) res.status(500).send("Internal Error sent by the global handler");
 });
 
 app.listen(process.env.PORT || 3001, () => {
