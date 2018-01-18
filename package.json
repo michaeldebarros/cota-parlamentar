@@ -19,8 +19,5 @@
   "dependencies": {
     "express": "^4.16.2",
     "fast-csv": "^2.4.1"
-  },
-  "devDependencies": {
-    "nodemon": "^1.13.0"
   }
 }
