@@ -4,7 +4,7 @@
   "description": "A simple node app to parse and serve a big JSON  file individually",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "app.js"
   },
   "repository": {
     "type": "git",
