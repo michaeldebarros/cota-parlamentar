@@ -21,8 +21,6 @@ app.get('/:ano/:nome/:despesa', (req, res, next) => {
 	const stream = fs.createReadStream(`Ano-${ano}.csv`, { start: 0 });
 
 	stream.on('error', () => {
-		//throw new Error("there was an error");
-		//res.status(500).send("Internal Error")
 		next(new Error('there was an error'));
 	});
 
@@ -66,7 +64,6 @@ app.get('/:ano/:nome/:despesa', (req, res, next) => {
 				results.push(data);
 				stopSign = false;
 			} else if (stopSign === false) {
-				res.send('Não há dados para essa requisição.');
 				res.json(results);
 				stopSign = true;
 			}
@@ -78,7 +75,7 @@ app.get('/:ano/:nome/:despesa', (req, res, next) => {
 
 //Error handler
 app.use((err, req, res, next) => {
-	if (err) res.status(500).send('Internal Error sent by the global handler');
+	if (err) res.status(500).send('Internal Error');
 });
 
 app.listen(process.env.PORT || 3001, () => {
