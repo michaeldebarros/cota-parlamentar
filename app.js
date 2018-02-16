@@ -14,7 +14,7 @@ app.use(function (req, res, next) {
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/build/index.html')
 });
-app.get('/:ano/:nome/:despesa', (req, res, next) => {
+app.get('/api/:ano/:nome/:despesa', (req, res, next) => {
 	let stopSign = null;
 	const results = [];
 	const ano = req.params.ano;
