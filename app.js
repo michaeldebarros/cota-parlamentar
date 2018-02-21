@@ -68,8 +68,8 @@ app.get('/api/:ano/:nome/:despesa', (req, res, next) => {
 				stopSign = false;
 			} else if (stopSign === false) {
 				res.json(results);
-				stopSign = true;
 				secondResult = results;
+				stopSign = true;
 			}
 		})
 		.on('end', () => {
