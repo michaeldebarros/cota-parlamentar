@@ -70,6 +70,7 @@ app.get('/api/:ano/:nome/:despesa', (req, res, next) => {
 				res.json(results);
 				secondResult = results;
 				stopSign = true;
+				stream.destroy();
 			}
 		})
 		.on('end', () => {
