@@ -2,6 +2,8 @@ const csv = require('fast-csv');
 const fs = require('fs');
 const express = require('express');
 const app = express();
+var secondResult;
+
 
 app.use(express.static(__dirname + '/build'));
 
@@ -25,7 +27,6 @@ app.get('/api/:ano/:nome/:despesa', (req, res, next) => {
 	stream.on('error', () => {
 		next(new Error('there was an error'));
 	});
-
 	csv
 		.fromStream(stream, {
 			delimiter: ';',
@@ -66,6 +67,7 @@ app.get('/api/:ano/:nome/:despesa', (req, res, next) => {
 				results.push(data);
 				stopSign = false;
 			} else if (stopSign === false) {
+				secondResult = results;
 				res.json(results);
 				stopSign = true;
 			}
@@ -73,6 +75,10 @@ app.get('/api/:ano/:nome/:despesa', (req, res, next) => {
 		.on('end', () => {
 			if (results.length === 0) res.send('Não há dados para essa requisição.');
 		});
+});
+
+app.get('/api/second', (req, res) => {
+	res.json(secondResult);
 });
 
 //Error handler
