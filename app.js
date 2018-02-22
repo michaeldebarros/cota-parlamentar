@@ -67,14 +67,17 @@ app.get('/api/:ano/:nome/:despesa', (req, res, next) => {
 				results.push(data);
 				stopSign = false;
 			} else if (stopSign === false) {
-				res.json(results);
 				secondResult = results;
 				stopSign = true;
 				stream.destroy();
+				res.json(results);
 			}
 		})
 		.on('end', () => {
-			if (results.length === 0) res.send('Não há dados para essa requisição.');
+			if (results.length === 0) {
+				secondResult = "No Register";
+				res.json(secondResult);
+			}
 		});
 });
 
